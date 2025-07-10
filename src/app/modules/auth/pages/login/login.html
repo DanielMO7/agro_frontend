@@ -1,0 +1,74 @@
+<div class="min-h-screen grid bg-gradient-to-tr from-green-50 to-green-200">
+  <div class="flex items-center justify-center px-4 py-8">
+    <div class="w-full h-full max-w-md rounded-2xl p-8 flex flex-col justify-between">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl sm:text-5xl font-bold text-green-700 tracking-wider">Agro</h1>
+        <p class="text-sm sm:text-base text-green-600 font-medium tracking-wide mt-1">Company</p>
+      </div>
+
+      <div class="text-center mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-800 tracking-wide">Iniciar Sesión</h2>
+        <p class="text-sm sm:text-base text-green-700 font-medium tracking-wide mt-1">Ingresa tus credenciales</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-8">
+        <div>
+          <label class="block mb-1 text-sm font-bold text-green-800 uppercase text-center">Usuario</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-full px-4 py-2 bg-green-50 focus:bg-white border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-sm text-red-500 mt-1">
+            El nombre de usuario es requerido.
+          </div>
+        </div>
+
+        <div class="relative">
+          <label class="block mb-1 text-sm font-bold text-green-800 uppercase text-center">Contraseña</label>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="w-full px-4 py-2 pr-10 bg-green-50 focus:bg-white border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+
+          <button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            class="absolute right-2 top-[36px] text-green-600 hover:text-green-800"
+          >
+            <span class="material-icons">
+              {{ showPassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+
+          <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="text-sm text-red-500 mt-1">
+            La contraseña es requerida.
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage()" class="error-message text-red-500 text-sm">
+          {{ errorMessage() }}
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="w-full py-4 bg-green-700 text-white text-lg font-semibold rounded-lg hover:bg-green-800 transition duration-200 disabled:opacity-50"
+          >
+            <ng-container *ngIf="loading(); else showText">
+              <div class="flex justify-center items-center">
+                <mat-spinner [diameter]="26" color="primary"></mat-spinner>
+              </div>
+            </ng-container>
+
+            <ng-template #showText>
+              Ingresar
+            </ng-template>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

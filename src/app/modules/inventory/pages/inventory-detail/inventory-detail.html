@@ -1,0 +1,73 @@
+<div *ngIf="loading()" class="flex justify-center items-center py-16">
+  <span class="text-gray-500 animate-pulse">Cargando inventario...</span>
+</div>
+
+<div *ngIf="error()" class="text-center py-10 text-red-600 font-semibold">
+  {{ error() }}
+</div>
+
+<div class="max-w-4xl mx-auto">
+  <a routerLink="/inventory"
+     class="inline-flex items-center gap-2 text-sm text-green-600 hover:text-green-800 font-medium transition duration-200 mb-4">
+    <span class="material-icons text-base">arrow_back</span>
+    Volver al listado
+  </a>
+</div>
+
+<div *ngIf="inventory() as i" [@fadeIn] class="max-w-4xl mx-auto">
+  <div class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-6 border border-gray-200">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">
+          Movimiento de Inventario
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">ID: {{ i.id }}</p>
+      </div>
+
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+            [ngClass]="i.is_input ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+        {{ i.is_input ? 'Entrada' : 'Salida' }}
+      </span>
+    </div>
+
+    <!-- Detalles -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+      <div>
+        <strong>Insumo:</strong> {{ i.input?.name || 'No especificado' }}
+      </div>
+      <div>
+        <strong>Referencia:</strong> {{ i.input?.reference || 'No disponible' }}
+      </div>
+      <div>
+        <strong>Almacén:</strong> {{ i.warehouse?.name || 'No especificado' }}
+      </div>
+      <div>
+        <strong>Referencia almacén:</strong> {{ i.warehouse?.reference || 'No disponible' }}
+      </div>
+      <div>
+        <strong>Cantidad:</strong> {{ i.amount }}
+      </div>
+      <div>
+        <strong>Responsable:</strong> {{ i.user?.name || 'No registrado' }}
+      </div>
+      <div>
+        <strong>Fecha de creación:</strong> {{ i.created_at | date: 'medium' }}
+      </div>
+      <div>
+        <strong>Última actualización:</strong> {{ i.updated_at | date: 'medium' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Botón de editar -->
+<button (click)="goToEditInventory()" class="fixed bottom-14 left-1/2 transform -translate-x-1/2
+         bg-green-700 hover:bg-green-800 text-white rounded-full
+         w-14 h-14 text-3xl
+         sm:w-20 sm:h-20 sm:text-4xl
+         shadow-lg flex items-center justify-center
+         transition duration-200 z-50" aria-label="Editar inventario">
+  <span class="material-icons text-white text-[28px] sm:text-[36px]">edit</span>
+</button>
